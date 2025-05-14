@@ -10,11 +10,12 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 // database connection
-const dbURI = 'mongodb+srv://shaun:test1234@cluster0.del96.mongodb.net/node-auth';
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true })
-  .then((result) => app.listen(3000))
-  .catch((err) => console.log(err));
+const dbURI = 'mongodb+srv://geminiakshatgupta:Akshat123@mycluster.adnqvww.mongodb.net/?retryWrites=true&w=majority&appName=MyCluster'; // Make sure this is correct and DNS-resolvable
+mongoose.connect(dbURI)
+  .then(() => app.listen(3000))
+  .catch((err) => console.log('DB connection error:', err));
 
 // routes
 app.get('/', (req, res) => res.render('home'));
 app.get('/smoothies', (req, res) => res.render('smoothies'));
+
