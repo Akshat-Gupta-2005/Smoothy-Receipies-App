@@ -1,35 +1,41 @@
 <%- include('partials/header'); -%>
 
-<form>
-  <h2>Sign up</h2>
-  
-  <label for="email">Email</label>
-  <input type="text" name="email" required />
-  <div class="email error"></div>
+    <form>
+        <h2>Sign up</h2>
 
-  <label for="password">Password</label>
-  <input type="password" name="password" required />
-  <div class="password error"></div>
+        <label for="email">Email</label>
+        <input type="text" name="email" required />
+        <div class="email error"></div>
 
-  <button>Sign up</button>
-</form>
+        <label for="password">Password</label>
+        <input type="password" name="password" required />
+        <div class="password error"></div>
 
-<script>
-    const form = document.querySelector('form');
+        <button>Sign up</button>
+    </form>
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault(); // Prevent the default form submission behavior preventing page reload
+    <script>
+        const form = document.querySelector('form');
 
-        const email = form.email.value;
-        const password = form.password.value;
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent the default form submission behavior preventing page reload
 
-        console.log(email, password);
+            const email = form.email.value;
+            const password = form.password.value;
 
-        // const res = await fetch('/api/signup', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({ email, password })
-        // });
+            // console.log(email, password);
+
+            try {
+                const res = await fetch('/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                })
+            }
+                 catch (error) {
+                    console.log(error);
+                }
+            });
 
         // const data = await res.json();
 
@@ -43,7 +49,6 @@
         // } else {
         //     window.location.href = '/welcome';
         // }
-    });
-</script>
+    </script>
 
-<%- include('partials/footer'); -%>
+    <%- include('partials/footer'); -%>
