@@ -16,12 +16,17 @@
 
     <script>
         const form = document.querySelector('form');
+        const emailError = form.querySelector('.email.error');
+        const passwordError = form.querySelector('.password.error');
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault(); // Prevent the default form submission behavior preventing page reload
 
             const email = form.email.value;
             const password = form.password.value;
+
+            emailError.textContent = '';
+            passwordError.textContent = '';
 
             // console.log(email, password);
 
@@ -31,11 +36,24 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
                 })
-            }
-                 catch (error) {
-                    console.log(error);
+                const data = await res.json();
+                console.log(data);
+
+                if (data.errors) {
+                    if (data.errors.email) {
+                        emailError.textContent = data.errors.email;
+                    }
+                    if (data.errors.password) {
+                        passwordError.textContent = data.errors.password;
+                    }
+                }else {
+                    location.assign('/');
                 }
-            });
+            }
+            catch (error) {
+                console.log(error);
+            }
+        });
 
         // const data = await res.json();
 
