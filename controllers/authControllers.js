@@ -68,7 +68,7 @@ login_post = async (req, res) => {
     const { email, password } = req.body
 
     try {
-        console.log(email, password)
+        // console.log(email, password)
         const user = await User.login(email, password)
         const token = createToken(user._id)
         res.cookie('jwt', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })

@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 const cookieParser = require('cookie-parser');
-const { requireAuth } = require('./middleware/authMiddleware');
+const { requireAuth , checkUser } = require('./middleware/authMiddleware');
 
 require('dotenv').config();
 
@@ -12,6 +12,8 @@ const app = express();
 app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
+app.use(checkUser);
+
 
 // view engine
 app.set('view engine', 'ejs');
