@@ -1,49 +1,59 @@
 <%- include('partials/header'); -%>
 
-<form>
-  <h2>Login</h2>
-  
-  <label for="email">Email</label>
-  <input type="text" name="email" required />
-  <div class="email error"></div>
+  <form>
+    <h2>Login</h2>
 
-  <label for="password">Password</label>
-  <input type="password" name="password" required />
-  <div class="password error"></div>
+    <label for="email">Email</label>
+    <input type="text" name="email" required />
+    <div class="email error"></div>
 
-  <button>Login</button>
-</form>
+    <label for="password">Password</label>
+    <input type="password" name="password" required />
+    <div class="password error"></div>
 
-<script>
+    <button>Login</button>
+  </form>
+
+  <script>
     const form = document.querySelector('form');
+    const emailError = form.querySelector('.email.error');
+    const passwordError = form.querySelector('.password.error');
 
     form.addEventListener('submit', async (e) => {
-        e.preventDefault(); // Prevent the default form submission behavior preventing page reload
+      e.preventDefault(); // Prevent the default form submission behavior preventing page reload
 
-        const email = form.email.value;
-        const password = form.password.value;
+      const email = form.email.value;
+      const password = form.password.value;
 
-        console.log(email, password);
+      emailError.textContent = '';
+      passwordError.textContent = '';
 
-        // const res = await fetch('/api/signup', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({ email, password })
-        // });
+      // console.log(email, password);
 
-        // const data = await res.json();
+      try {
+        const res = await fetch('/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        })
+        const data = await res.json();
+        console.log(data);
 
-        // if (data.error) {
-        //     if (data.error.email) {
-        //         form.querySelector('.email').textContent = data.error.email;
-        //     }
-        //     if (data.error.password) {
-        //         form.querySelector('.password').textContent = data.error.password;
-        //     }
-        // } else {
-        //     window.location.href = '/welcome';
-        // }
+        if (data.errors) {
+          if (data.errors.email) {
+            emailError.textContent = data.errors.email;
+          }
+          if (data.errors.password) {
+            passwordError.textContent = data.errors.password;
+          }
+        } else {
+          location.assign('/');
+        }
+      }
+      catch (error) {
+        console.log(error);
+      }
     });
-</script>
+  </script>
 
-<%- include('partials/footer'); -%>
+  <%- include('partials/footer'); -%>

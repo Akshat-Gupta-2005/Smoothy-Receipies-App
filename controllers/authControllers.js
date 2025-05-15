@@ -8,6 +8,18 @@ const handleErrors = (err) => {
     console.log(err.message, err.code)
     let errors = { email: '', password: '' }
 
+    // incorrect email
+    if (err.message === 'incorrect email') {
+        errors.email = 'that email is not registered'
+        return errors
+    }
+
+    // incorrect password
+    if (err.message === 'incorrect password') {
+        errors.password = 'that password is incorrect'
+        return errors
+    }
+
     // duplicate error code
     if (err.code === 11000) {
         errors.email = 'That email is already registered'
@@ -20,7 +32,7 @@ const handleErrors = (err) => {
         })
     }
     return errors
-}   
+}
 
 const createToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -29,13 +41,13 @@ const createToken = (id) => {
 }
 
 
-signup_get =  (req, res) => {
+signup_get = (req, res) => {
     res.render('signup')
 }
-login_get =  (req, res) => {
+login_get = (req, res) => {
     res.render('login')
 }
-signup_post =  async (req, res) => {
+signup_post = async (req, res) => {
     const { email, password } = req.body
     // console.log(email, password)
     // res.send(req.body)
@@ -49,11 +61,23 @@ signup_post =  async (req, res) => {
         // console.log(error)
         const errors = handleErrors(error)
         // res.status(400).json({ error: error.message })
-        res.status(400).json({errors})
+        res.status(400).json({ errors })
     }
 }
-login_post =  (req, res) => {
-    res.send('login')
+login_post = async (req, res) => {
+    const { email, password } = req.body
+
+    try {
+        console.log(email, password)
+        const user = await User.login(email, password)
+        const token = createToken(user._id)
+        res.cookie('jwt', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
+        res.status(200).json({ user: user._id })
+    } catch (error) {
+        const errors = handleErrors(error)
+        res.status(400).json({ errors })
+    }
+
 }
 
 module.exports = {
