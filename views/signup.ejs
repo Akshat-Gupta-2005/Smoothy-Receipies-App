@@ -1,5 +1,49 @@
 <%- include('partials/header'); -%>
 
-<h1>signup</h1>
+<form>
+  <h2>Sign up</h2>
+  
+  <label for="email">Email</label>
+  <input type="text" name="email" required />
+  <div class="email error"></div>
+
+  <label for="password">Password</label>
+  <input type="password" name="password" required />
+  <div class="password error"></div>
+
+  <button>Sign up</button>
+</form>
+
+<script>
+    const form = document.querySelector('form');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Prevent the default form submission behavior preventing page reload
+
+        const email = form.email.value;
+        const password = form.password.value;
+
+        console.log(email, password);
+
+        // const res = await fetch('/api/signup', {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({ email, password })
+        // });
+
+        // const data = await res.json();
+
+        // if (data.error) {
+        //     if (data.error.email) {
+        //         form.querySelector('.email').textContent = data.error.email;
+        //     }
+        //     if (data.error.password) {
+        //         form.querySelector('.password').textContent = data.error.password;
+        //     }
+        // } else {
+        //     window.location.href = '/welcome';
+        // }
+    });
+</script>
 
 <%- include('partials/footer'); -%>
