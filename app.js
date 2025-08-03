@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 const cookieParser = require('cookie-parser');
-const { requireAuth , checkUser } = require('./middleware/authMiddleware');
+const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 
 require('dotenv').config();
 
@@ -20,13 +20,17 @@ app.set('view engine', 'ejs');
 
 // database connection
 const dbURI = process.env.DB_URI;
+const PORT = process.env.PORT || 3000;
+
 mongoose.connect(dbURI)
-  .then(() => app.listen(3000))
-  .catch((err) => console.log('DB connection error:', err));
+  .then(() => app.listen(PORT, () => {
+    console.log(`\n🚀 Server is running at: http://localhost:${PORT}\n`);
+  }))
+  .catch ((err) => console.log('DB connection error:', err));
 
 // routes 
 app.get('/', (req, res) => res.render('home'));
-app.get('/smoothies', requireAuth ,(req, res) => res.render('smoothies'));
+app.get('/smoothies', requireAuth, (req, res) => res.render('smoothies'));
 app.use(authRoutes);
 
 app.get('/set-cookies', (req, res) => {

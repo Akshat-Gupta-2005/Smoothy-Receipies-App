@@ -70,6 +70,34 @@ A user‑authentication enabled recipe web app built with Node.js, Express, Mong
 
 ---
 
+## 🛠️ Environment Configuration
+
+Before running the application, you need to set up environment variables using a `.env` file in the root directory of the project.
+
+### 🔐 Create `.env` file
+
+1. At the root of the project, create a new file named `.env`  
+2. Paste the following content into the file:
+
+```env
+DB_URI="mongodb+srv://<your-username>:<your-password>@<your-cluster>.mongodb.net/smoothies?retryWrites=true&w=majority&appName=MyCluster"
+JWT_SECRET="your_jwt_secret_key"
+JWT_EXPIRES_IN="3h"
+PORT=5000
+```
+
+### 📝 Description of Variables
+
+| Variable         | Description                                                  |
+|------------------|--------------------------------------------------------------|
+| `DB_URI`         | MongoDB connection string (replace `<username>` and `<password>` with your credentials) |
+| `JWT_SECRET`     | Secret key used to sign JWT tokens                           |
+| `JWT_EXPIRES_IN` | Token validity duration (e.g., 3h = 3 hours)                 |
+| `PORT`           | Port number your server will run on (default: `5000`)        |
+
+
+---
+
 ## 📡 API Documentation
 
 ### **Auth Endpoints**
@@ -135,12 +163,7 @@ Feel free to customize any sections for portfolio styling, screenshots, or a liv
 
 ---
 
-### 📝 References  
-• Repository structure and stats verified via GitHub UI ([github.com](https://github.com/Akshat-Gupta-2005/Smoothy-Receipies-App?utm_source=chatgpt.com))  
-• Tech stack and features (cookie-parser, validator, Express, EJS, MVC) identified by auto‑analysis and file layout ([github.com](https://github.com/Akshat-Gupta-2005/Smoothy-Receipies-App?utm_source=chatgpt.com))
-
-
-### Concepts Learned:
+### 📝 Concepts Learned:
 - Cookies
 - Validation
 - Authentication
